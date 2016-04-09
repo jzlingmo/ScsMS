@@ -1,0 +1,60 @@
+<html>
+<head>
+    <title>South China Sea Monitor System</title>
+    <meta charset="utf-8"/>
+
+    <link rel="icon" href="../static/img/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="../static/css/angular-motion.css"/>
+    <link rel="stylesheet" href="../static/css/aniamate.css"/>
+    <link rel="stylesheet" href="../static/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../static/css/font-awesome.css"/>
+    <link rel="stylesheet" href="../static/css/loading-bar.css"/>
+    <link rel="stylesheet" href="../static/css/nv.d3.css"/>
+    <link rel="stylesheet" href="../static/css/directives.css"/>
+    <link rel="stylesheet" href="../static/css/common.css"/>
+    <link rel="stylesheet" href="../static/css/app.css"/>
+</head>
+<body ng-app="app" ng-controller="RootCtrl" id="scs">
+
+<!--页面头部-->
+<div ng-include="'static/views/common/header.html'"></div>
+
+<!--菜单栏-->
+<div ng-if="loggedIn" ng-include="'static/views/nav.html'"></div>
+<div ng-if="loggedIn" id="mainPage" class="container">
+    <!--<div ng-view class="am-leave-none am-fade-and-slide-bottom"></div>-->
+    <div ng-view class="view-frame"></div>
+</div>
+
+<div ng-if="!loggedIn" id="loginPage" ng-view class="animated fadeInDown"></div>
+
+
+<script src="../static/vendor/angular.js"></script>
+<script src="../static/vendor/angular-animate.js"></script>
+<script src="../static/vendor/angular-cookies.js"></script>
+<script src="../static/vendor/angular-route.js"></script>
+<script src="../static/vendor/angular-sanitize.js"></script>
+
+
+
+<script src="../static/vendor/angular-strap.js"></script>
+<script src="../static/vendor/angular-strap.tpl.js"></script>
+
+<script src="../static/vendor/ui-bootstrap-tpls-0.11.0.js"></script>
+
+
+
+<script src="../static/vendor/d3.v3.js"></script>
+<script src="../static/vendor/nv.d3.js"></script>
+
+
+<script src="../static/js/options.js"></script>
+<script src="../static/js/app.js"></script>
+<script src="../static/js/services.js"></script>
+<script src="../static/js/directives.js"></script>
+<script src="../static/js/filters.js"></script>
+<script src="../static/js/controllers.js"></script>
+
+
+</body>
+</html>

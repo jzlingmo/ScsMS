@@ -1,0 +1,43 @@
+<!--charts view-->
+
+<div id="chartsPanel" class="panel">
+    <div class="panel-heading">
+        <h3>图表分析<i class="fa fa-bar-chart-o fa-fw"></i></h3>
+
+        <div class="form-horizontal">
+            <div class="option">
+                <label>时间:</label>
+                <button bs-select type="button" class="btn btn-sm btn-default" data-animation=""
+                        ng-model="choosed.x"
+                        ng-options="item.value as item.label for item in chartOption.x">
+                    Choose date<span class="caret"></span>
+                </button>
+
+                <label>跨度：</label>
+
+                <div class="btn-group btn-group-sm" ng-model="choosed.group" bs-radio-group>
+                    <label ng-repeat="option in chartOption.group" class="btn btn-default">
+                        <input type="radio" value="{{ option.value }}">{{ option.label }}
+                    </label>
+                </div>
+
+                <label>分组：</label>
+                <button bs-select type="button" class="btn btn-sm btn-default" data-animation=""
+                        ng-model="choosed.key"
+                        ng-options="item.value as item.label for item in chartOption.key">
+                    Choose Group<span class="caret"></span>
+                </button>
+
+                <button ng-click="doRefresh()" class="btn btn-sm">生成图表</button>
+            </div>
+
+        </div>
+        <!--pre>choosed:{{choosed | json}}</pre-->
+    </div>
+    <div class="panel-body">
+
+        <area-chart data="data" time="choosed.group">
+        </area-chart>
+
+    </div>
+</div>

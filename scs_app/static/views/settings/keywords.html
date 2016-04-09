@@ -1,0 +1,59 @@
+<!--settings view-->
+
+<div class="panel">
+    <div class="panel-heading">
+        <h3>
+            <a class="fa fa-chevron-left" href="#/settings">返回</a>
+            &nbsp;配置抓取关键字<i class="fa fa-gears fa-fw"></i>
+        </h3>
+
+        <div class="form-horizontal">
+
+            <div class="btn-toolbar  " role="toolbar">
+                <div class="btn-group pull-right">
+                    <a class="btn btn-default"
+                       ng-click="open_new_keyword()">
+                        <i class="fa fa-plus"></i>
+                        新增关键字
+                    </a>
+                    <a class="btn btn-default"
+                       ng-click="doRefresh()">
+                        <i class="fa fa-refresh" ng-class="{'fa-spin':refreshing}"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <table class="table table-bordered table-condensed table-hover">
+            <thead>
+            <tr>
+                <th class="wd-40">关键字</th>
+                <th class="wd-15">所处位置</th>
+                <th class="wd-15">是否包含</th>
+                <th class="wd-30">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="keyword in keywords">
+                <td class="text-center"> {{ keyword.keyword }}</td>
+                <td class="text-center"> {{ keyword.position | position }}</td>
+                <td class="text-center"> {{ keyword.has | has }}</td>
+                <td class="text-center">
+                    <a ng-click="edit_keyword($index)">
+                        <i class="fa fa-edit"></i>&nbsp;编辑
+                    </a>
+                    &nbsp;&nbsp;
+                    <a class="red" ng-click="delete_keyword(keyword.sid)">
+                        <i class="fa fa-trash-o" ng-class="{'fa-spinner fa-spin':keyword.sid==deleting}"></i>&nbsp;删除
+                    </a>
+                </td>
+            </tr>
+            <tr ng-if="keywords==''">
+                <td colspan="5" class="text-center">暂未配置关键字</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

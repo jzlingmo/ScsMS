@@ -1,0 +1,257 @@
+@font-face {
+    font-family: 'cuisine';
+    src: url('../fonts/cuisine.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.view-frame.ng-enter {
+    -webkit-animation-name: fadeInUp;
+    animation-name: fadeInUp;
+    -webkit-animation-duration: 0.5s;
+    -moz-animation-duration: 0.5s;
+    -o-animation-duration: 0.5s;
+    animation-duration: 0.5s;
+}
+
+html,
+body {
+    font-family: "Microsoft Yahei";
+    background-image: url("../img/gray_bg.png");
+}
+
+a {
+    cursor: pointer
+}
+
+area-chart {
+    display: block;
+    width: 101%;
+    height: 400px;
+}
+
+#header {
+    color: white;
+    box-shadow: 0 0 2px 2px black;
+    height: 50;
+    background-color: #009999;
+    z-index: 10;
+}
+
+#header .navbar-brand {
+    font-family: cuisine;
+    font-size: 24px;
+}
+
+#header .logout {
+    position: absolute;
+    top: 12px;
+    right: 20px;
+    padding: 6px 10px;
+    background-color: #444;
+    opacity: 0.8;
+    border-radius: 2px;
+    cursor: pointer;
+    box-shadow: 0 0 4px 1px #000;
+    color: #fff;
+}
+
+#menu {
+    position: fixed;
+    padding: 10px 0;
+    top: 50px;
+    bottom: 0;
+    z-index: 10;
+    width: 70px;
+    min-height: 400px;
+    background-color: #444444;
+    box-shadow: 0px 0px 4px 0px #808080;
+    /*-webkit-border-radius: 0 7 7 0;*/
+    /*-moz-border-radius: 0 7 7 0;*/
+    /*-ms-border-radius: 0 7 7 0;*/
+    /*-o-border-radius: 0 7 7 0;*/
+    /*border-radius: 0 7 7 0;*/
+}
+
+#menu .fa {
+    font-size: 38px;
+}
+
+#menu a {
+    text-align: center;
+    width: 70px;
+    height: 70px;
+    padding: 6px;
+    line-height: 12px;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -ms-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition: all 0.4s;
+}
+
+#menu a:hover,
+#menu a:focus {
+    color: #999999;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#menu .active a {
+    color: #009999;
+    font-weight: bold;
+    background-color: #ffffff;
+}
+
+#loginPage {
+    padding-top: 70;
+}
+
+#loginPage form {
+    margin-top: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    width: 30%;
+    min-width: 280px;
+    -webkit-border-radius: 10;
+    -moz-border-radius: 10;
+    -ms-border-radius: 10;
+    -o-border-radius: 10;
+    border-radius: 10;
+}
+
+#loginPage form legend {
+    font-size: 19px;
+    padding-bottom: 8px;
+}
+
+#loginPage form .alert {
+    padding: 5px;
+    text-align: center;
+}
+
+#loginPage form input:not([type=submit]) {
+    height: 40px;
+    padding-left: 35px;
+}
+
+#loginPage form input[type=submit] {
+    color: #ffffff;
+    height: 42px;
+}
+
+#loginPage form .form-group {
+    position: relative;
+}
+
+#loginPage form .form-group .fa {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    color: #009999;
+    font-size: 20px;
+}
+
+#mainPage {
+    padding-top: 70;
+    padding-left: 0;
+    margin-left: 100px;
+}
+
+.panel {
+    min-height: 500px;
+}
+
+.panel .panel-heading {
+    padding: 0 15px;
+
+}
+
+.panel .panel-heading h3 i.fa {
+    font-size: 22px;
+    float: right;
+}
+
+#chartsPanel .option {
+    margin-bottom: 10px;
+}
+
+/* selection */
+::selection {
+    color: #ffffff;
+    background-color: #66cccc;
+}
+
+/* scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-button:start:decrement,
+::-webkit-scrollbar-button:end:increment {
+    display: block;
+    height: 0px;
+}
+
+::-webkit-scrollbar-button:vertical:increment {
+    background-color: #fff;
+}
+
+::-webkit-scrollbar-track-piece {
+    background-color: #eee;
+    -webkit-border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+    height: 10px;
+    background-color: #ccc;
+    -webkit-border-radius: 3px;
+}
+
+/*common*/
+#scs .tooltip-inner{
+    font-size: 16px;
+    max-width: 1000px;
+}
+#scs .btn-toolbar .btn {
+    line-height: 15px;
+    height: 34px;
+    padding: 8px 12px;
+}
+
+#scs .switch{
+    float: left;
+}
+
+.switch-label{
+    height: 30px;
+    line-height: 30px;
+    margin-left: 10px
+}
+
+#scs .table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+#scs a:hover {
+    text-decoration: none;
+}
+
+.table tr td, .table tr th {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table th {
+    text-align: center
+}
+
+.content p {
+    text-indent: 2em;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

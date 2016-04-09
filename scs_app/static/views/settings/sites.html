@@ -1,0 +1,64 @@
+<!--settings view-->
+
+<div class="panel">
+    <div class="panel-heading">
+        <h3>
+            <a class="fa fa-chevron-left" href="#/settings">返回</a>
+            &nbsp;配置抓取网站<i class="fa fa-gears fa-fw"></i>
+        </h3>
+
+        <div class="form-horizontal">
+
+            <div class="btn-toolbar  " role="toolbar">
+                <div class=" pull-right">
+                    <a class="btn btn-default"
+                       ng-click="open_new_site()">
+                        <i class="fa fa-plus"></i>
+                        新增网站
+                    </a>
+                    <a class="btn btn-default"
+                       ng-click="doRefresh()">
+                        <i class="fa fa-refresh" ng-class="{'fa-spin':refreshing}"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered table-condensed table-hover">
+            <thead>
+            <tr>
+                <th class="wd-25">URL</th>
+                <th class="wd-10">网站名称</th>
+                <th class="wd-10">网站类型</th>
+                <th class="wd-30">内容页url正则</th>
+                <th class="wd-10">激活状态</th>
+                <th class="wd-15">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="site in sites">
+                <td> {{ site.url }}</td>
+                <td class="text-center"> {{ site.name }}</td>
+                <td class="text-center"> {{ site.type }}</td>
+                <td class="text-center">
+                    <div class="text-overflow" bs-tooltip="site.pattern">{{ site.pattern }}</div>
+                </td>
+                <td class="text-center"> {{ site.visible | active0 }}</td>
+                <td class="text-center">
+                    <a ng-click="open_edit($index)">
+                        <i class="fa fa-edit" ></i>&nbsp;编辑
+                    </a>
+                    &nbsp;&nbsp;
+                    <a class="red" ng-click="delete_site(site.sid)">
+                        <i class="fa fa-trash-o" ng-class="{'fa-spinner fa-spin':site.sid==deleting}"></i>&nbsp;删除
+                    </a>
+                </td>
+            </tr>
+            <tr ng-if="keywords==''">
+                <td colspan="5" class="text-center">暂未配置关键字</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+
+<form class="form-horizontal" ng-submit="login()">
+    <legend class="lead">请登陆</legend>
+    <div class="alert alert-danger" ng-show="loginError">用户名或密码错误</div>
+    <div class="form-group">
+        <div class="col-md-10 col-md-offset-1">
+            <i class="fa fa-user fa-fw"></i>
+            <input type="text" ng-model="user.username" class="form-control"  placeholder="用户名"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10 col-md-offset-1">
+            <i class="fa fa-lock fa-fw"></i>
+            <input type="password" ng-model="user.password" class="form-control" name="password" placeholder="密码"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10 col-md-offset-1">
+            <input type="submit" class="form-control btn btn-primary" value="登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;陆"/>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,47 @@
+
+/*switch directive*/
+.switch {
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 999px;
+}
+
+.switch .switch-handle {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    z-index: 2;
+    width: 30px;
+    height: 30px;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 100px;
+}
+
+.switch.active {
+    background-color: #009999;
+    border: 1px solid #007f80;
+}
+
+.switch.active .switch-handle {
+    border-color: #007f80;
+    -webkit-transform: translate3d(34px, 0, 0);
+    transform: translate3d(34px, 0, 0);
+}
+
+.switch-transition-enabled {
+    -webkit-transition: background-color 200ms ease, border 200ms ease;
+    transition: background-color 200ms ease, border 200ms ease;
+}
+
+.switch-transition-enabled > .switch-handle {
+    -webkit-transition: -webkit-transform 200ms ease, background-color 200ms ease;
+    -moz-transition: -moz-transform 200ms ease, background-color 200ms ease;
+    -o-transition: -o-transform 200ms ease, background-color 200ms ease;
+    transition: transform 200ms ease, background-color 200ms ease;
+}

@@ -1,0 +1,59 @@
+<div class="modal-header">
+    <h3 class="modal-title">新增网站</h3>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" role="form" name="newForm">
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">网站名称(*)</label>
+
+            <div class="col-sm-5">
+                <input type="text" class="form-control" ng-model="site.name" maxlength="10" required="">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">网站类型</label>
+
+            <div class="col-sm-9">
+                <button type="button" class="btn btn-default" data-html="1"
+                        ng-options="type for type in site_types" bs-select ng-model="site.type">
+                    Action <span class="caret"></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">URL(*)</label>
+
+            <div class="col-sm-9">
+                <input type="text" class="form-control" ng-model="site.url" maxlength="255" required="">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">内容页url正则</label>
+
+            <div class="col-sm-9">
+                <input type="text" class="form-control" ng-model="site.pattern" maxlength="255">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">激活状态</label>
+
+            <div class="col-sm-9">
+                <switch ng-model="site.visible" on="0" off="1"></switch>
+                <div class="switch-label inline-block pull-left">{{ site.visible | active0 }}</div>
+            </div>
+        </div>
+    </form>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-disabled="!newForm.$valid||adding" ng-click="save()">
+        <i ng-show="adding" class="fa fa-spinner fa-spin"></i>
+        完成
+    </button>
+    <button class="btn btn-default" ng-click="cancel()">取消</button>
+</div>

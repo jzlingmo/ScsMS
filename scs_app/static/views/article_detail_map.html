@@ -1,0 +1,84 @@
+<!--process view-->
+
+<div id="articlePage" class="panel">
+    <div class="panel-heading">
+        <h3>
+            <a class="fa fa-chevron-left" href="#/map">返回</a>
+            <i class="fa fa-file-text-o fa-fw"></i>
+        </h3>
+        <br>
+
+        <div class="form-horizontal">
+
+            <div class="btn-toolbar pull-right " role="toolbar">
+                <div class="btn-group">
+                    <a class="btn btn-default"
+                       ng-click="extract()">
+                        关键字和摘要提取
+                        <i ng-show="extracting" class="fa fa-spinner fa-spin"></i>
+                    </a>
+                </div>
+                <div class="btn-group">
+                    <a class="btn btn-default" ng-click="doRefresh()"><i class="fa fa-refresh"
+                                                                         ng-class="{'fa-spin':refreshing}"></i></a>
+                    <a class="btn btn-danger" ng-click="delete_article()"><i class="fa fa-trash-o"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <h1 class="text-center">{{ article.title }}</h1>
+
+        <p class="text-center">
+            来源地址：{{ article.url }}&nbsp;
+            <a ng-href="{{ article.url }}" class="fa fa-external-link" target="_blank"></a>
+        </p>
+
+        <p class="text-center">
+            发布时间:{{ article.publish_time | date:'yyyy-MM-dd HH:mm' }}
+            &nbsp;&nbsp;
+            采集时间:{{ article.collect_time | date:'yyyy-MM-dd HH:mm'}}
+        </p>
+
+        <p class="form-inline">
+            <strong>关键字</strong>
+            <span ng-hide="keywords_edit">{{ article.keywords || '未处理'}}</span>
+            &nbsp;
+            <a ng-show="extracting" class="fa fa-spinner fa-spin"></a>
+            <a ng-hide="extracting||keywords_edit" ng-click="edit_keywords()" class="fa fa-edit"></a>
+
+            <span ng-show="keywords_edit">
+                <input ng-show="keywords_edit" ng-model="article.keywords" class="form-control" style="width: 70%">
+                <a class="btn btn-sm btn-info" ng-click="save_keywords()">保存</a>
+                <a class="btn btn-sm btn-default" ng-click="cancel_keywords()">取消</a>
+            </span>
+
+
+        </p>
+
+        <p>
+            <strong>摘要</strong>
+            <span ng-hide="abstract_edit">{{ article.abstract || '未处理' }}</span>
+            &nbsp;
+            <a ng-show="extracting" class="fa fa-spinner fa-spin"></a>
+            <a ng-hide="extracting||abstract_edit" ng-click="edit_abstract()" class="fa fa-edit"></a>
+
+        <div ng-show="abstract_edit">
+            <textarea ng-show="abstract_edit" ng-model="article.abstract" class="form-control"
+                      style="width: 100%;min-height:100px"></textarea>
+
+            <div style="margin-top: 5px;overflow: hidden">
+                <div class="btn-group pull-right">
+                    <a class="btn btn-sm btn-info" ng-click="save_abstract()">保存</a>
+                    <a class="btn btn-sm btn-default" ng-click="cancel_abstract()">取消</a>
+                </div>
+            </div>
+        </div>
+        </p>
+        <hr/>
+        <div class="content" ng-bind-html="article.content"></div>
+
+
+    </div>
+</div>

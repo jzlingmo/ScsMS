@@ -1,0 +1,44 @@
+<!--main view-->
+
+<div class="panel">
+    <div class="panel-heading">
+        <h3>首页<i class="fa fa-indent fa-fw"></i></h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6 padding-left">
+                <p>共抓取了&nbsp;<span class="label label-info">{{ total_count }}</span>&nbsp;篇网页</p>
+                <br/>
+                <p>
+                    <label>关键字和摘要</label>
+                    <p>已处理&nbsp;<span class="label label-success">{{ processed_count }}</span>&nbsp;篇
+                         &nbsp;&nbsp;
+                        未处理共&nbsp;<span class="label label-warning">{{ total_count-processed_count }}</span>&nbsp;篇
+                    </p>
+                </p>
+                <br/>
+                <p>
+                    <label>地理位置处理</label>
+
+                    <p>可分类（中文网页）共<span class="label label-info">{{ supported_lc_count }}</span>&nbsp;篇</p>
+
+                    <p>已分类&nbsp;<span class="label label-success">{{ has_lc_count }}</span>&nbsp;篇
+                      &nbsp;&nbsp;
+                      未分类共&nbsp;<span class="label label-warning">{{ supported_lc_count-has_lc_count }}</span>&nbsp;篇
+                    </p>
+                </p>
+            </div>
+            <div class="col-md-6">
+                <p>
+                    <label>爬虫状态：&nbsp;</label>
+                    <a href="#/settings/spider">
+                        <span ng-show="pid" class="green"><i class="fa fa-play"></i>&nbsp;运行中</span>
+                        <span ng-show="!pid" class="red"><i class="fa fa-stop"></i>&nbsp;未运行</span>
+                    </a>
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+</div>

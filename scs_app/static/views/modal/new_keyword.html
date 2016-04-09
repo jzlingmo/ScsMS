@@ -1,0 +1,43 @@
+<div class="modal-header">
+    <h3 class="modal-title">新增网站</h3>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" role="form" name="newForm">
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">关键字(*)</label>
+
+            <div class="col-sm-5">
+                <input type="text" class="form-control" ng-model="keyword.keyword" maxlength="15" required="">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">所处位置</label>
+
+            <div class="col-sm-9">
+                <button type="button" class="btn btn-default" data-html="1"
+                        ng-options="position.value as position.label for position in [{label:'标题',value:1},{label:'正文',value:2}]"
+                        bs-select ng-model="keyword.position">
+                    Action <span class="caret"></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">是否包含(*)</label>
+
+            <div class="col-sm-9">
+                <switch ng-model="keyword.has" on="1" off="0"></switch>
+                <div class="switch-label inline-block pull-left">{{ keyword.has | iscontain }}</div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-disabled="!newForm.$valid||adding" ng-click="save()">
+        <i ng-show ="adding" class="fa fa-spinner fa-spin"></i>
+        完成
+    </button>
+    <button class="btn btn-default" ng-click="cancel()">取消</button>
+</div>

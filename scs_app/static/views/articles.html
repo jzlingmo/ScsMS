@@ -1,0 +1,72 @@
+<!--process view-->
+
+<div id="articlePage" class="panel">
+    <div class="panel-heading">
+        <h3>文章列表<i class="fa fa-indent fa-fw"></i></h3>
+        <br>
+
+        <div class="form-horizontal">
+            <label>处理状态:</label>
+
+            <div class="btn-group btn-group-sm" ng-model="choosed.processed" bs-radio-group>
+                <label ng-repeat="option in options.processed" class="btn btn-default">
+                    <input type="radio" value="{{ option.value }}">{{ option.label }}
+                </label>
+            </div>
+            &nbsp;
+            &nbsp;
+            <label>时间:</label>
+            <button bs-select type="button" class="btn btn-sm btn-default" data-animation=""
+                    ng-model="choosed.time_field"
+                    ng-options="item.value as item.label for item in options.time_field">
+                字段<span class="caret"></span>
+            </button>
+            <label>时间跨度:</label>
+            <button bs-select type="button" class="btn btn-sm btn-default" data-animation=""
+                    ng-model="choosed.time"
+                    ng-options="item.value as item.label for item in options.dates">
+                Choose date<span class="caret"></span>
+            </button>
+
+        </div>
+        <br>
+        <!--pre>choosed:{{ choosed | json }}</pre-->
+    </div>
+    <div class="panel-body">
+        <pre>Page: {{ a_page.page_index }} / {{ total_pages }} 每页显示 {{ a_page.page_size }} 共 {{ a_page.total }}</pre>
+
+        <table class="table table-bordered table-condensed table-hover">
+            <thead>
+            <tr>
+                <th class="wd-40">标题</th>
+                <th class="wd-20">来源网站</th>
+                <th class="wd-10">网站类型</th>
+                <th ng-if="choosed.time_field=='publish_time'" class="wd-20">发布时间</th>
+                <th ng-if="choosed.time_field=='collect_time'" class="wd-20">采集时间</th>
+                <th class="wd-10">处理状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="article in articles">
+                <td> <a ng-href="#/articles/{{ article.sid }}">{{ article.title }}</a></td>
+                <td class="text-center"> {{ article.name }}</td>
+                <td class="text-center"> {{ article.type }}</td>
+                <td class="text-center" ng-if="choosed.time_field=='publish_time'"> {{ article.publish_time | date:'yyyy-MM-dd HH:mm'}}</td>
+                <td class="text-center" ng-if="choosed.time_field=='collect_time'"> {{ article.collect_time | date:'yyyy-MM-dd HH:mm'}}</td>
+                <td class="text-center"> {{ article.processed | processed}}</td>
+            </tr>
+            <tr ng-if="articles==''"><td colspan="5" class="text-center">暂无数据</td></tr>
+            </tbody>
+        </table>
+
+        <pagination ng-model="a_page.page_index" total-items="a_page.total" items-per-page="a_page.page_size"
+                    ng-change="pageChanged()"
+                    max-size="9"
+                    class="pagination-sm"
+                    boundary-links="true" rotate="false" num-pages="total_pages"
+                    previous-text="上一页" next-text="下一页"></pagination>
+        <pre>Page: {{ a_page.page_index }} / {{ total_pages }} 每页显示 {{ a_page.page_size }} 共 {{ a_page.total }}</pre>
+
+
+    </div>
+</div>

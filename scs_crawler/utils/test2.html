@@ -1,0 +1,765 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+     
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    
+<head>
+    <title>Mysql 按年度、季度、月度、周、日SQL统计查询 - 言会咸
+        - 博客频道 - CSDN.NET</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="最近遇到一个问题：开发时建表没有 建立day month year 字段 直接用的时间戳，但是统计时要用到 按天，月，年排序这个不用程序处理 直接用mysql可以处理：mysql没有提供unix时间戳的专门处理函数，所以，如果遇到时间分组，而你用的又是整型unix时间戳，则只有转化为mysql的其他日期类型！&#160;&#160; FROM_UNIXTIM()将unix时间戳转为datetime" />
+    <script src="http://static.blog.csdn.net/scripts/jquery.js" type="text/javascript"></script>
+    <script type="text/javascript" src="http://static.blog.csdn.net/scripts/ad.js?v=1.1"></script>
+        <!--new top-->
+               <link rel="stylesheet" href="http://static.csdn.net/public/common/toolbar/css/index.css">        <!--new top-->
+
+    <link rel="Stylesheet" type="text/css" href="http://static.blog.csdn.net/skin/default/css/style.css?v=1.1" />
+    <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="/aoyoo111/rss/list" />
+    <link rel="shortcut icon" href="http://csdnimg.cn/public/favicon.ico" />
+    <link type="text/css" rel="stylesheet" href="http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/blue.css" />
+ 
+
+</head>
+<body>
+    
+   
+      <!--new top-->
+    <script id="toolbar-tpl-scriptId" fixed="true" prod="blog" skin="black" src="http://static.csdn.net/public/common/toolbar/js/html.js" type="text/javascript"></script>
+     <!--new top-->
+    <div id="container">
+        <div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h2>
+                <a href="http://blog.csdn.net/aoyoo111">言会咸</a></h2>
+            <h3>程序猿成长日志......记录点滴!</h3>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>
+                <li id="btnContents"><a href="http://blog.csdn.net/aoyoo111?viewmode=contents"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_mulu'])">
+                    <img src="http://static.blog.csdn.net/images/ico_list.gif">目录视图</span></a></li>
+                <li id="btnView"><a href="http://blog.csdn.net/aoyoo111?viewmode=list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_zhaiyao'])">
+                    <img src="http://static.blog.csdn.net/images/ico_summary.gif">摘要视图</span></a></li>
+                <li id="btnRss"><a href="http://blog.csdn.net/aoyoo111/rss/list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_RSS'])">
+                    <img src="http://static.blog.csdn.net/images/ico_rss.gif">订阅</span></a></li>
+
+            </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "aoyoo111";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/aoyoo111";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "";
+</script>
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+<div class="notice tracking-ad" data-mod='popu_3' > 
+
+<a href="http://blog.csdn.net/blogdevteam/article/details/25387451"target="_blank">
+<font color=blue>有奖征资源，博文分享有内涵
+</font></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<a href="http://blog.csdn.net/blogdevteam/article/details/25400391"target="_blank">
+<font color=red>4月推荐博文汇总 
+</font></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<a href="http://www.csdn.net/article/2014-05-14/2819758"target="_blank">
+<font color=blue>专访朱燚：弃移动和互联网应用战场转战传统应用的弄潮儿 
+</font></a>
+
+</div>                    <link href="http://static.blog.csdn.net/css/comment1.css" type="text/css" rel="stylesheet" />
+<link href="http://static.blog.csdn.net/css/style1.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="http://csdnimg.cn/rabbit/search-service/main.js"></script>
+<div id="article_details" class="details">
+    <div class="article_title">   
+         <span class="ico ico_type_Repost"></span>
+
+
+    <h1>
+        <span class="link_title"><a href="/aoyoo111/article/details/7846987">
+        Mysql 按年度、季度、月度、周、日SQL统计查询
+        </a></span>
+    </h1>
+</div>
+
+    <div class="article_manage">
+        <span class="link_categories">
+        分类：
+            <a href="/aoyoo111/article/category/478855" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">Mysql</a> 
+            <a href="/aoyoo111/article/category/478853" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">Php</a> 
+        </span>
+    <span class="link_postdate">2012-08-09 12:46</span>
+    <span class="link_view" title="阅读次数">10398人阅读</span>
+    <span class="link_comments" title="评论次数"><a href="#comments" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_pinglun'])">评论</a>(0)</span>
+    <span class="link_collect"><a href="javascript:void(0);" onclick="javascript:_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shoucang']);collectArticle('Mysql 按年度、季度、月度、周、日SQL统计查询','7846987');return false;" title="收藏">收藏</a></span>
+    <span class="link_report"><a href="#report"  onclick="javascript:_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_jubao']);report(7846987,2);return false;" title="举报">举报</a></span>
+    
+</div>
+<div class="tag2box"><a href='http://www.csdn.net/tag/mysql' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">mysql</a><a href='http://www.csdn.net/tag/sql' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">sql</a><a href='http://www.csdn.net/tag/date' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">date</a><a href='http://www.csdn.net/tag/unix' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">unix</a><a href='http://www.csdn.net/tag/blog' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">blog</a><a href='http://www.csdn.net/tag/table' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">table</a></div>
+
+    
+<div id="article_content" class="article_content">
+
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left"><span style="font-family:Arial,Helvetica,simsun,u5b8bu4f53; font-size:14px; line-height:25px; text-align:left">最近遇到一个问题：开发时建表没有 建立day month year 字段
+ 直接用的时间戳，但是统计时要用到 按天，月，年排序</span><br style="line-height:25px; font-family:Arial,Helvetica,simsun,u5b8bu4f53; font-size:14px; text-align:left">
+</span>
+<p><span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left"><span style="font-family:Arial,Helvetica,simsun,u5b8bu4f53; font-size:14px; line-height:25px; text-align:left">这个不用程序处理 直接用mysql可以处理：<br>
+</span>mysql没有提供unix时间戳的专门处理函数，所以，如果遇到时间分组，而你用的又是整型unix时间戳，则只有转化为mysql的其他日期类型！</span></p>
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">&nbsp;&nbsp; FROM_UNIXTIM()将unix时间戳转为datetime等日期型！</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">一、年度查询</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">查询 本年度的数据</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">SELECT *</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">FROM blog_article</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">WHERE year( FROM_UNIXTIME( BlogCreateTime ) ) = year( curdate( ))</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">二、查询季度数据</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">查询数据附带季度数</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">SELECT ArticleId, quarter( FROM_UNIXTIME( `BlogCreateTime` ) )&nbsp;</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">FROM `blog_article`</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">其他的同前面部分：查询 本季度的数据</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">SELECT *</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">FROM blog_article</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">WHERE quarter( FROM_UNIXTIME( BlogCreateTime ) ) = quarter( curdate( ))</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">三、查询月度数据</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">本月统计(MySQL)</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">select * from booking where month(booking_time) =</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">month(curdate()) and year(booking_time) = year(curdate())</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">本周统计(MySQL)</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">select * from spf_booking where month(booking_time) =</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">month(curdate()) and week(booking_time) = week(curdate())</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">四、时间段</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">N天内记录</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">WHERE TO_DAYS(NOW()) - TO_DAYS(时间字段) &lt;= N</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">当天的记录</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">where date(时间字段)=date(now())</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">或</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">where to_days(时间字段) = to_days(now());</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">查询一周：</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">select * from table&nbsp;&nbsp; where DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(column_time);</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">查询一个月：</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">select * from table where DATE_SUB(CURDATE(), INTERVAL INTERVAL 1 MONTH) &lt;= date(column_time);</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">查询'06-03'到'07-08'这个时间段内所有过生日的会员：</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">&nbsp;&nbsp; Select * From user Where</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">DATE_FORMAT(birthday,'%m-%d') &gt;= '06-03' and DATE_FORMAT(birthday,'%m-%d')</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">&lt;= '07-08';</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">统计一季度数据，表时间字段为：savetime&nbsp;</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">group by concat(date_format(savetime, '%Y '),FLOOR((date_format(savetime, '%m ')&#43;2)/3))</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">或</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">select YEAR(savetime)*10&#43;((MONTH(savetime)-1) DIV 3) &#43;1,count(*)</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">from yourTable</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">group by YEAR(savetime)*10&#43;((MONTH(savetime)-1) DIV 3) &#43;1;</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">五、分组查询</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">&nbsp;&nbsp; 1、年度分组</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">&nbsp;&nbsp; 2、月度分组</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">&nbsp;&nbsp; 3、先按年度分组，再按月度分组</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">&nbsp;&nbsp; 4、按年月分组</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">&nbsp;&nbsp; SELECT count(ArticleId), date_format(FROM_UNIXTIME( `BlogCreateTime`),'%y%m') sdate&nbsp; FROM `blog_article` group by sdate</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">&nbsp;&nbsp; 结果：</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">&nbsp;&nbsp;&nbsp; count( ArticleId )&nbsp;&nbsp;&nbsp;&nbsp; sdate</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">17&nbsp;&nbsp;&nbsp;&nbsp; 0901</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">11&nbsp;&nbsp;&nbsp;&nbsp; 0902</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">5&nbsp;&nbsp;&nbsp;&nbsp; 0903</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">6&nbsp;&nbsp;&nbsp;&nbsp; 0904</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">2&nbsp;&nbsp;&nbsp;&nbsp; 0905</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">1&nbsp;&nbsp;&nbsp;&nbsp; 0907</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">12&nbsp;&nbsp;&nbsp;&nbsp; 0908</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">6&nbsp;&nbsp;&nbsp;&nbsp; 0909</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">11&nbsp;&nbsp;&nbsp;&nbsp; 0910</span><br style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; text-align:left">
+<span style="font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25px; text-align:left">3&nbsp;&nbsp;&nbsp;&nbsp; 0911</span>
+
+</div>
+
+
+
+<!-- Baidu Button BEGIN -->
+<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare" style="float: right;">
+<a class="bds_qzone"></a>
+<a class="bds_tsina"></a>
+<a class="bds_tqq"></a>
+<a class="bds_renren"></a>
+<a class="bds_t163"></a>
+<span class="bds_more">更多</span>
+<a class="shareCount"></a>
+</div>
+<!-- Baidu Button END -->
+
+
+<!--192.168.100.34-->
+<ul class="article_next_prev">
+            <li class="prev_article"><span  onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian']);location.href='/aoyoo111/article/details/7753601';">上一篇</span><a href="/aoyoo111/article/details/7753601" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian'])">ThinkPHP V2.2 说明文档没有说明的那些事！！！</a></li>
+            <li class="next_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian']);location.href='/aoyoo111/article/details/7849558';">下一篇</span><a href="/aoyoo111/article/details/7849558" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian'])">PHP日期处理,mysql按日期、时间查询</a></li>
+</ul>
+
+<!-- Baidu Button BEGIN -->
+<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=1536434" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+</script>
+<!-- Baidu Button END -->
+
+</div>
+      <dl class="blog-associat-tag">
+        <dt>主题推荐</dt>
+        <dd>
+                <a href="http://www.csdn.net/tag/sql" target="_blank" class="blog-tage-red" >sql</a> 
+                <a href="http://www.csdn.net/tag/mysql" target="_blank" class="blog-tage-red" >mysql</a> 
+                <a href="http://www.csdn.net/tag/数据" target="_blank" class="blog-tage-red" >数据</a> 
+                <a href="http://www.csdn.net/tag/一周" target="_blank" class="blog-tage-red" >一周</a> 
+                <a href="http://www.csdn.net/tag/spf" target="_blank" class="blog-tage-red" >spf</a> 
+        </dd>
+    </dl> 
+    <dl class="blog-ass-articl tracking-ad"  data-mod="popu_17">
+        <dt><span>博文推荐</span></dt>
+            <dd>
+                <a href="http://blog.csdn.net/suheonline/article/details/25966877" title="SQL 游标使用" target="_blank">SQL 游标使用</a></dd>
+            <dd>
+                <a href="http://blog.csdn.net/suheonline/article/details/25966555" title="SQl 表名是变量" target="_blank">SQl 表名是变量</a></dd>
+            <dd>
+                <a href="http://blog.csdn.net/stormeye123/article/details/25962825" title="游戏开发计划——数据元素设计（人物）" target="_blank">游戏开发计划——数据元素设计（人物）</a></dd>
+            <dd>
+                <a href="http://blog.csdn.net/u010792238/article/details/25914085" title="略谈SQL中的存储过程" target="_blank">略谈SQL中的存储过程</a></dd>
+            <dd>
+                <a href="http://blog.csdn.net/JackieWell/article/details/25953029" title="mysql deadlocks with concurrent inserts" target="_blank">mysql deadlocks with...</a></dd>
+            <dd>
+                <a href="http://blog.csdn.net/yx511500623/article/details/25936809" title="MySQL安装之后没有MySQL数据库的原因" target="_blank">MySQL安装之后没有MySQL数据库的...</a></dd>
+            <dd>
+                <a href="http://blog.csdn.net/fanflame4444/article/details/25924681" title="android数据储存之存储方式" target="_blank">android数据储存之存储方式</a></dd>
+            <dd>
+                <a href="http://blog.csdn.net/banrixianxin/article/details/25927631" title="vc开发常用的自定义函数，持续更新。。。" target="_blank">vc开发常用的自定义函数，持续更新。。。</a></dd>
+    </dl>
+
+
+
+    <div id="ad_cen">
+        <script type="text/javascript">            BAIDU_CLB_SLOT_ID = "117306";</script>
+        <script type="text/javascript" src="http://cbjs.baidu.com/js/o.js"></script>
+    </div>
+    <script type="text/javascript">
+        //new Ad(4, 'ad_cen');
+    </script>
+<div id="comment_title" class="panel_head">
+    查看评论<a name="comments"></a></div>
+<div id="comment_list">
+</div>
+<div id="comment_bar">
+</div>
+<div id="comment_form">
+</div>
+<div class="announce">
+    * 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>
+<script type="text/javascript">
+    var fileName = '7846987';
+    var commentscount = 0;
+    var islock = false
+</script>
+<script type="text/javascript" src="http://static.blog.csdn.net/scripts/comment.js"></script>
+    <div id="ad_bot">
+    </div>
+    <script type="text/javascript">
+    new Ad(5, 'ad_bot');
+    </script>
+<div id="report_dialog">
+</div>
+
+<div id="d-top"  style="bottom:60px;">
+      
+
+       <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="http://static.blog.csdn.net/images/blog-icon-reply.png" alt="快速回复">
+        </a>    
+
+    <a id="d-top-a" class="btn btn-top backtop"  style="display: none;" title="返回顶部" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_huidaodingbu'])" style="">         
+         <img src="http://static.blog.csdn.net/images/top.png" alt="TOP">
+    </a>
+</div>
+<script type="text/javascript">
+    $(function ()
+    {
+        if($("#comment_content").length>0)
+        {
+            $("#quick-reply").show();
+
+            $("#quick-reply").click(function(){
+                setEditorFocus();
+            });
+        }       
+     
+        var d_top = $('#d-top-a');
+        document.onscroll = function ()
+        {
+            var scrTop = (document.body.scrollTop || document.documentElement.scrollTop);
+            if (scrTop > 500)
+            {
+                d_top.show();
+            } else
+            {
+                d_top.hide();
+            }
+        }
+        $('#d-top-a').click(function ()
+        {
+            scrollTo(0, 0);
+            this.blur();
+            return false;
+        });
+    });
+  
+</script>
+<style type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</style>
+<div class="tag_list">
+    <h5>
+        <a href="http://www.csdn.net/tag/" target="_blank">核心技术类目</a></h5>
+    <div class="classify">
+<a title="全部主题" href="http://www.csdn.net/tag" target="_blank" onclick="LogClickCount(this,336);">全部主题</a>
+<a title="Java" href="http://www.csdn.net/tag/Java" target="_blank" onclick="LogClickCount(this,336);">Java</a>
+<a title="VPN" href="http://www.csdn.net/tag/vpn" target="_blank" onclick="LogClickCount(this,336);">VPN</a>
+<a title="Android" href="http://www.csdn.net/tag/android" target="_blank" onclick="LogClickCount(this,336);">Android</a>
+<a title="iOS" href="http://www.csdn.net/tag/ios" target="_blank" onclick="LogClickCount(this,336);">iOS</a>
+<a title="ERP" href="http://www.csdn.net/tag/erp" target="_blank" onclick="LogClickCount(this,336);">ERP</a>
+<a title="IE10" href="http://www.csdn.net/tag/ie10" target="_blank" onclick="LogClickCount(this,336);">IE10</a>
+<a title="Eclipse" href="http://www.csdn.net/tag/eclipse" target="_blank" onclick="LogClickCount(this,336);">Eclipse</a>
+<a title="CRM" href="http://www.csdn.net/tag/crm" target="_blank" onclick="LogClickCount(this,336);">CRM</a>
+<a title="JavaScript" href="http://www.csdn.net/tag/javascript" target="_blank" onclick="LogClickCount(this,336);">JavaScript</a>
+<a title="Ubuntu" href="http://www.csdn.net/tag/ubuntu" target="_blank" onclick="LogClickCount(this,336);">Ubuntu</a>
+<a title="NFC" href="http://www.csdn.net/tag/nfc" target="_blank" onclick="LogClickCount(this,336);">NFC</a>
+<a title="WAP" href="http://www.csdn.net/tag/wap" target="_blank" onclick="LogClickCount(this,336);">WAP</a>
+<a title="jQuery" href="http://www.csdn.net/tag/jquery" target="_blank" onclick="LogClickCount(this,336);">jQuery</a>
+<a title="数据库" href="http://www.csdn.net/tag/数据库" target="_blank" onclick="LogClickCount(this,336);">数据库</a>
+<a title="BI" href="http://www.csdn.net/tag/bi" target="_blank" onclick="LogClickCount(this,336);">BI</a>
+<a title="HTML5" href="http://www.csdn.net/tag/html5" target="_blank" onclick="LogClickCount(this,336);">HTML5</a>
+<a title="Spring" href="http://www.csdn.net/tag/spring" target="_blank" onclick="LogClickCount(this,336);">Spring</a>
+<a title="Apache" href="http://www.csdn.net/tag/apache" target="_blank" onclick="LogClickCount(this,336);">Apache</a>
+<a title="Hadoop" href="http://www.csdn.net/tag/hadoop" target="_blank" onclick="LogClickCount(this,336);">Hadoop</a>
+<a title=".NET" href="http://www.csdn.net/tag/.net" target="_blank" onclick="LogClickCount(this,336);">.NET</a>
+<a title="API" href="http://www.csdn.net/tag/api" target="_blank" onclick="LogClickCount(this,336);">API</a>
+<a title="HTML" href="http://www.csdn.net/tag/html" target="_blank" onclick="LogClickCount(this,336);">HTML</a>
+<a title="SDK" href="http://www.csdn.net/tag/sdk" target="_blank" onclick="LogClickCount(this,336);">SDK</a>
+<a title="IIS" href="http://www.csdn.net/tag/iis" target="_blank" onclick="LogClickCount(this,336);">IIS</a>
+<a title="Fedora" href="http://www.csdn.net/tag/fedora" target="_blank" onclick="LogClickCount(this,336);">Fedora</a>
+<a title="XML" href="http://www.csdn.net/tag/xml" target="_blank" onclick="LogClickCount(this,336);">XML</a>
+<a title="LBS" href="http://www.csdn.net/tag/lbs" target="_blank" onclick="LogClickCount(this,336);">LBS</a>
+<a title="Unity" href="http://www.csdn.net/tag/unity" target="_blank" onclick="LogClickCount(this,336);">Unity</a>
+<a title="Splashtop" href="http://www.csdn.net/tag/splashtop" target="_blank" onclick="LogClickCount(this,336);">Splashtop</a>
+<a title="UML" href="http://www.csdn.net/tag/uml" target="_blank" onclick="LogClickCount(this,336);">UML</a>
+<a title="components" href="http://www.csdn.net/tag/components" target="_blank" onclick="LogClickCount(this,336);">components</a>
+<a title="Windows Mobile" href="http://www.csdn.net/tag/windowsmobile" target="_blank" onclick="LogClickCount(this,336);">Windows Mobile</a>
+<a title="Rails" href="http://www.csdn.net/tag/rails" target="_blank" onclick="LogClickCount(this,336);">Rails</a>
+<a title="QEMU" href="http://www.csdn.net/tag/qemu" target="_blank" onclick="LogClickCount(this,336);">QEMU</a>
+<a title="KDE" href="http://www.csdn.net/tag/kde" target="_blank" onclick="LogClickCount(this,336);">KDE</a>
+<a title="Cassandra" href="http://www.csdn.net/tag/cassandra" target="_blank" onclick="LogClickCount(this,336);">Cassandra</a>
+<a title="CloudStack" href="http://www.csdn.net/tag/cloudstack" target="_blank" onclick="LogClickCount(this,336);">CloudStack</a>
+<a title="FTC" href="http://www.csdn.net/tag/ftc" target="_blank" onclick="LogClickCount(this,336);">FTC</a>
+<a title="coremail" href="http://www.csdn.net/tag/coremail" target="_blank" onclick="LogClickCount(this,336);">coremail</a>
+<a title="OPhone " href="http://www.csdn.net/tag/ophone " target="_blank" onclick="LogClickCount(this,336);">OPhone </a>
+<a title="CouchBase" href="http://www.csdn.net/tag/couchbase" target="_blank" onclick="LogClickCount(this,336);">CouchBase</a>
+<a title="云计算" href="http://www.csdn.net/tag/云计算" target="_blank" onclick="LogClickCount(this,336);">云计算</a>
+<a title="iOS6" href="http://www.csdn.net/tag/iOS6" target="_blank" onclick="LogClickCount(this,336);">iOS6</a>
+<a title="Rackspace " href="http://www.csdn.net/tag/rackspace " target="_blank" onclick="LogClickCount(this,336);">Rackspace </a>
+<a title="Web App" href="http://www.csdn.net/tag/webapp" target="_blank" onclick="LogClickCount(this,336);">Web App</a>
+<a title="SpringSide" href="http://www.csdn.net/tag/springside" target="_blank" onclick="LogClickCount(this,336);">SpringSide</a>
+<a title="Maemo" href="http://www.csdn.net/tag/maemo" target="_blank" onclick="LogClickCount(this,336);">Maemo</a>
+<a title="Compuware" href="http://www.csdn.net/tag/compuware" target="_blank" onclick="LogClickCount(this,336);">Compuware</a>
+<a title="大数据" href="http://www.csdn.net/tag/大数据" target="_blank" onclick="LogClickCount(this,336);">大数据</a>
+<a title="aptech" href="http://www.csdn.net/tag/aptech" target="_blank" onclick="LogClickCount(this,336);">aptech</a>
+<a title="Perl" href="http://www.csdn.net/tag/perl" target="_blank" onclick="LogClickCount(this,336);">Perl</a>
+<a title="Tornado" href="http://www.csdn.net/tag/tornado" target="_blank" onclick="LogClickCount(this,336);">Tornado</a>
+<a title="Ruby" href="http://www.csdn.net/tag/ruby" target="_blank" onclick="LogClickCount(this,336);">Ruby</a>
+<a title="Hibernate" href="http://www.csdn.net/hibernate" target="_blank" onclick="LogClickCount(this,336);">Hibernate</a>
+<a title="ThinkPHP" href="http://www.csdn.net/tag/thinkphp" target="_blank" onclick="LogClickCount(this,336);">ThinkPHP</a>
+<a title="Spark" href="http://www.csdn.net/tag/spark" target="_blank" onclick="LogClickCount(this,336);">Spark</a>
+<a title="HBase" href="http://www.csdn.net/tag/hbase" target="_blank" onclick="LogClickCount(this,336);">HBase</a>
+<a title="Pure" href="http://www.csdn.net/tag/pure" target="_blank" onclick="LogClickCount(this,336);">Pure</a>
+<a title="Solr" href="http://www.csdn.net/tag/solr" target="_blank" onclick="LogClickCount(this,336);">Solr</a>
+<a title="Angular" href="http://www.csdn.net/tag/angular" target="_blank" onclick="LogClickCount(this,336);">Angular</a>
+<a title="Cloud Foundry" href="http://www.csdn.net/tag/cloudfoundry" target="_blank" onclick="LogClickCount(this,336);">Cloud Foundry</a>
+<a title="Redis" href="http://www.csdn.net/tag/redis" target="_blank" onclick="LogClickCount(this,336);">Redis</a>
+<a title="Scala" href="http://www.csdn.net/tag/scala" target="_blank" onclick="LogClickCount(this,336);">Scala</a>
+<a title="Django" href="http://www.csdn.net/tag/django" target="_blank" onclick="LogClickCount(this,336);">Django</a>
+<a title="Bootstrap" href="http://www.csdn.net/tag/bootstrap" target="_blank" onclick="LogClickCount(this,336);">Bootstrap</a>
+    </div>
+</div>
+
+                    <div class="clear">
+                    </div>
+                </div>
+            </div>
+            <div id="side">
+    <div class="side">
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface">
+    <a href="http://my.csdn.net/aoyoo111" target="_blank">
+    <img src="http://avatar.csdn.net/D/C/F/1_aoyoo111.jpg" title="访问我的空间" style="max-width:90%"/>
+    </a>
+    <br />
+    <span><a href="http://my.csdn.net/aoyoo111" class="user_name" target="_blank">aoyoo111</a></span>
+</div>
+<div class="interact">
+<a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_guanzhu'])"></a>
+<a href="javascript:void(0);" class="letter" onclick="loginto(1)" title="[发私信]" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_sixin'])"></a>
+</div>
+<div id="blog_medal">
+</div>
+<ul id="blog_rank">
+    <li>访问：<span>87502次</span></li>
+    <li>积分：<span>1288分</span></li>
+    <li>排名：<span>第10779名</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>33篇</span></li>
+    <li>转载：<span>42篇</span></li>
+    <li>译文：<span>0篇</span></li>
+    <li>评论：<span>29条</span></li>
+</ul>
+</ul>
+</div>
+
+
+<div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body">
+        <form id="frmSearch" action="http://so.csdn.net/search" class="form_search" target="_blank">
+        <span><input id="inputSearch" type="text" class="blogsearch" title="请输入关键字" /></span>
+        <input id="btnSubmit" type="submit" value="搜索" title="search in blog" />
+        <input type="hidden" name="q" id="inputQ" />
+        <input type="hidden" name="t" value="blog" />
+        <a id="btnSearchBlog" target="_blank"></a>
+        </form>
+    </ul>
+</div><div id="panel_Category" class="panel">
+<ul class="panel_head"><span>文章分类</span></ul>
+<ul class="panel_body">
+             <li>
+                <a href="http://blog.csdn.net/aoyoo111/article/category/478854" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Asp</a><span>(1)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/aoyoo111/article/category/478852" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Javascript</a><span>(11)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/aoyoo111/article/category/478855" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Mysql</a><span>(6)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/aoyoo111/article/category/478853" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Php</a><span>(50)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/aoyoo111/article/category/812639" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">ThinkPHP</a><span>(29)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/aoyoo111/article/category/478856" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Html5 Css</a><span>(1)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/aoyoo111/article/category/782576" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Zend Studio</a><span>(4)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/aoyoo111/article/category/876630" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">系统</a><span>(4)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/aoyoo111/article/category/944116" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Web Editor</a><span>(1)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/aoyoo111/article/category/1102141" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Jquery</a><span>(4)</span>
+            </li>
+</ul>
+</div><div id="panel_Archive" class="panel">
+<ul class="panel_head"><span>文章存档</span></ul>
+<ul class="panel_body">
+<div id="archive_list">
+<!--归档统计-->
+<li><a href="http://blog.csdn.net/aoyoo111/article/month/2014/04">2014年04月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2014/03">2014年03月</a><span>(3)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2014/02">2014年02月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2014/01">2014年01月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2013/12">2013年12月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2013/11">2013年11月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2013/10">2013年10月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2013/08">2013年08月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2013/07">2013年07月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2013/03">2013年03月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2013/02">2013年02月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2013/01">2013年01月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2012/11">2012年11月</a><span>(3)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2012/10">2012年10月</a><span>(5)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2012/08">2012年08月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2012/07">2012年07月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2012/03">2012年03月</a><span>(3)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2012/02">2012年02月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2011/12">2011年12月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2011/11">2011年11月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2011/09">2011年09月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2011/08">2011年08月</a><span>(21)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2011/04">2011年04月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2011/02">2011年02月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2009/05">2009年05月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/aoyoo111/article/month/2008/10">2008年10月</a><span>(1)</span></li>
+</div>
+</ul>
+</div>
+<div id="hotarticls" class="panel">
+<ul class="panel_head">
+    <span>       
+阅读排行    </span>
+</ul>
+
+<ul class="panel_body itemlist">
+<li>
+<a href="/aoyoo111/article/details/7846987" title="Mysql 按年度、季度、月度、周、日SQL统计查询">Mysql 按年度、季度、月度、周、日SQL统计查询</a><span>(10395)</span>
+</li>
+<li>
+<a href="/aoyoo111/article/details/6666947" title="Thinkphp内置截取字符串函数">Thinkphp内置截取字符串函数</a><span>(8757)</span>
+</li>
+<li>
+<a href="/aoyoo111/article/details/6830045" title="Thinkphp模板标签if和eq的区别和比较">Thinkphp模板标签if和eq的区别和比较</a><span>(7721)</span>
+</li>
+<li>
+<a href="/aoyoo111/article/details/8076100" title="PHP获取今天、昨天、明天的日期">PHP获取今天、昨天、明天的日期</a><span>(6483)</span>
+</li>
+<li>
+<a href="/aoyoo111/article/details/7037813" title="Kindeditor设置编辑器默认字体大小及字体取色器自定义">Kindeditor设置编辑器默认字体大小及字体取色器自定义</a><span>(4254)</span>
+</li>
+<li>
+<a href="/aoyoo111/article/details/7858117" title="关于thinkphp入库出现两次反斜线转义和thinkphp数据库类的转义">关于thinkphp入库出现两次反斜线转义和thinkphp数据库类的转义</a><span>(2827)</span>
+</li>
+<li>
+<a href="/aoyoo111/article/details/7855418" title="Js选中checkbox后获取table内一行TD所有数据">Js选中checkbox后获取table内一行TD所有数据</a><span>(2741)</span>
+</li>
+<li>
+<a href="/aoyoo111/article/details/7858171" title="Js让Html中特殊字符不被转义">Js让Html中特殊字符不被转义</a><span>(2261)</span>
+</li>
+<li>
+<a href="/aoyoo111/article/details/7855409" title="jQuery实现点击复选框即高亮显示选中行 全选、反选">jQuery实现点击复选框即高亮显示选中行 全选、反选</a><span>(2173)</span>
+</li>
+<li>
+<a href="/aoyoo111/article/details/7013781" title="ThinkPHP水印功能，修复PNG透明水印增加JPEG图片质量可调整">ThinkPHP水印功能，修复PNG透明水印增加JPEG图片质量可调整</a><span>(2125)</span>
+</li>
+</ul>
+</div>
+<div id="hotarticls2" class="panel">
+<ul class="panel_head"><span>评论排行</span></ul>
+<ul class="panel_body itemlist">
+<li>
+<a href="/aoyoo111/article/details/19020161" title="PHP安装pthreads多线程扩展教程[windows篇]">PHP安装pthreads多线程扩展教程[windows篇]</a><span>(9)</span>
+</li>
+<li>
+<a href="/aoyoo111/article/details/7013781" title="ThinkPHP水印功能，修复PNG透明水印增加JPEG图片质量可调整">ThinkPHP水印功能，修复PNG透明水印增加JPEG图片质量可调整</a><span>(6)</span>
+</li>
+<li>
+<a href="/aoyoo111/article/details/6830045" title="Thinkphp模板标签if和eq的区别和比较">Thinkphp模板标签if和eq的区别和比较</a><span>(5)</span>
+</li>
+<li>
+<a href="/aoyoo111/article/details/6674219" title="Thinkphp中volist标签中mod控制一定记录的换行BUG">Thinkphp中volist标签中mod控制一定记录的换行BUG</a><span>(3)</span>
+</li>
+<li>
+<a href="/aoyoo111/article/details/6707215" title="PHP获取文件夹大小函数">PHP获取文件夹大小函数</a><span>(2)</span>
+</li>
+<li>
+<a href="/aoyoo111/article/details/7272771" title="ThinkPHP中的过滤函数[可以对对象,数组,字符串进行递归过滤]">ThinkPHP中的过滤函数[可以对对象,数组,字符串进行递归过滤]</a><span>(2)</span>
+</li>
+<li>
+<a href="/aoyoo111/article/details/6666947" title="Thinkphp内置截取字符串函数">Thinkphp内置截取字符串函数</a><span>(1)</span>
+</li>
+<li>
+<a href="/aoyoo111/article/details/7858171" title="Js让Html中特殊字符不被转义">Js让Html中特殊字符不被转义</a><span>(1)</span>
+</li>
+<li>
+<a href="/aoyoo111/article/details/8228128" title="PHP+Ajax实时自动检测是否联网">PHP+Ajax实时自动检测是否联网</a><span>(0)</span>
+</li>
+<li>
+<a href="/aoyoo111/article/details/8227912" title="PHP判断是否连接上网络">PHP判断是否连接上网络</a><span>(0)</span>
+</li>
+</ul>
+</div>
+<div id="homepageArticles" class="panel tracking-ad" data-mod="popu_4">
+<ul class="panel_head"><span>推荐文章</span></ul>
+<ul class="panel_body" id="ad_commend"></ul>
+</div>
+<script type="text/javascript">
+ new Ad(12, 'ad_commend');
+</script><div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body itemlist">
+    <li>
+   
+         <a href="/aoyoo111/article/details/19020161#comments">PHP安装pthreads多线程扩展教程[windows篇]</a>
+    <p style="margin:0px;"><a href="/yao978318542" class="user_name">yao978318542</a>:
+我的httpd.conf 没有LoadFile 这一行呀 如何看apache的版本呢？使版本不对吗？...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/aoyoo111/article/details/19020161#comments">PHP安装pthreads多线程扩展教程[windows篇]</a>
+    <p style="margin:0px;"><a href="/aoyoo111" class="user_name">aoyoo111</a>:
+@yao978318542:LoadFile &quot;......&quot;LoadFile &quot;......&quot;Lo...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/aoyoo111/article/details/19020161#comments">PHP安装pthreads多线程扩展教程[windows篇]</a>
+    <p style="margin:0px;"><a href="/yao978318542" class="user_name">yao978318542</a>:
+修改Apache配置文件httpd.conf 添加LoadFile &quot;X:/PHP5/pthread...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/aoyoo111/article/details/19020161#comments">PHP安装pthreads多线程扩展教程[windows篇]</a>
+    <p style="margin:0px;"><a href="/aoyoo111" class="user_name">aoyoo111</a>:
+@lzpokok:启动失败有提示吗?
+    </p>
+    </li>
+    <li>
+   
+         <a href="/aoyoo111/article/details/19020161#comments">PHP安装pthreads多线程扩展教程[windows篇]</a>
+    <p style="margin:0px;"><a href="/aoyoo111" class="user_name">aoyoo111</a>:
+@yao978318542:貌似只有apache才行,iis好像不行
+    </p>
+    </li>
+    <li>
+   
+         <a href="/aoyoo111/article/details/19020161#comments">PHP安装pthreads多线程扩展教程[windows篇]</a>
+    <p style="margin:0px;"><a href="/yao978318542" class="user_name">yao978318542</a>:
+iis 下怎么安装呢 大手。win2008的 iis7.0
+    </p>
+    </li>
+    <li>
+   
+         <a href="/aoyoo111/article/details/19020161#comments">PHP安装pthreads多线程扩展教程[windows篇]</a>
+    <p style="margin:0px;"><a href="/lzpokok" class="user_name">lzpokok</a>:
+apache启动失败。。。PHP5.3
+    </p>
+    </li>
+    <li>
+   
+         <a href="/aoyoo111/article/details/19020161#comments">PHP安装pthreads多线程扩展教程[windows篇]</a>
+    <p style="margin:0px;"><a href="/aoyoo111" class="user_name">aoyoo111</a>:
+@yao978318542:你要注意版本
+    </p>
+    </li>
+    <li>
+   
+         <a href="/aoyoo111/article/details/19020161#comments">PHP安装pthreads多线程扩展教程[windows篇]</a>
+    <p style="margin:0px;"><a href="/yao978318542" class="user_name">yao978318542</a>:
+配置apache的时候出错了  添加的不对吧！
+    </p>
+    </li>
+    <li>
+   
+         <a href="/aoyoo111/article/details/6707215#comments">PHP获取文件夹大小函数</a>
+    <p style="margin:0px;"><a href="/u013690738" class="user_name">u013690738</a>:
+echo 10;
+    </p>
+    </li>
+</ul>
+</div>
+<div id="custom_column_7600551" class="panel">
+<ul class="panel_body">
+
+<div id="GOOGLE_COMMENT" style="position:absolute">&lt;script type=&quot;text/javascript&quot; src=&quot; /&gt;
+</div>
+
+</ul>
+</div>    </div>
+    <div class="clear">
+    </div>
+</div>
+
+            <div class="clear">
+            </div>
+        </div>
+        
+
+<script type="text/javascript" src="http://static.blog.csdn.net/scripts/newblog.min.js"></script>
+<script type="text/javascript" src="http://medal.blog.csdn.net/showblogmedal.ashx?blogid=352212"></script>
+<script type="text/javascript">
+    document.write('<script type="text/javascript" src="http://csdnimg.cn/pubfooter/js/publib_footer.js?' + Math.floor(new Date() / 120000).toString(36) + '="></' + 'script>');
+</script>
+    <script type="text/javascript" src="http://passport.csdn.net/content/loginbox/login.js"></script>
+<script type="text/javascript">document.write("<img src=http://counter.csdn.net/pv.aspx?id=24 border=0 width=0 height=0>");</script>
+<script type="text/javascript" src="http://www.csdn.net/ui/scripts/Csdn/counter.js"></script>
+<script type="text/javascript" src="http://ad.csdn.net/scripts/ad-blog.js"></script>
+<script type="text/javascript" src="http://zz.csdn.net/js/count.js"></script>
+<script type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片' style='text-indent:0;'><img src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 alt='在CODE上查看代码片' style='position:relative;top:1px;left:2px;'/></a>"
+                    + "<a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片'  style='text-indent:0;'><img src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 alt='派生到我的代码片' style='position:relative;top:2px;left:2px;'/></a>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+    });
+</script>
+
+    </div>
+      <!--new top-->
+    
+    <script id="csdn-toolbar-id" btnId="header_notice_num" wrapId="note1" count="5" subCount="5" type="text/javascript" src="http://static.csdn.net/public/common/toolbar/js/toolbar.js"></script>     <!--new top-->
+</body>
+</html>
